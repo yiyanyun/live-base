@@ -13,7 +13,10 @@
 
 #### 下载
 ~~~
-git clone 
+下载源码
+git clone https://github.com/yiyanyun/live-base.git
+更新依赖
+composer update
 ~~~
 
 #### 目录说明
