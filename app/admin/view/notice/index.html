@@ -1,0 +1,396 @@
+<!--
+ * @Author       : Lucifer
+ * @Date         : 2022-12-10 14:05:11
+ * @LastEditTime : 2022-12-17 11:23:33
+ * @FilePath     : \ioucode_auth\app\admin\view\notice\index.html
+-->
+
+
+{include file='public/header'/}
+
+<div class="row">
+
+    <div class="col-lg-12">
+        <div class="card">
+            <header class="card-header">
+                <div class="card-title">列表</div>
+            </header>
+            <div class="card-body">
+
+                <div id="toolbar" class="toolbar-btn-action">
+                    <button id="btn_add" type="button" class="btn btn-primary me-1" data-bs-toggle="modal"
+                        data-bs-target="#exampleModalLive">
+                        <span class="mdi mdi-plus" aria-hidden="true"></span>新增
+                    </button>
+                    <div class="modal fade" id="exampleModalLive" tabindex="-1" aria-labelledby="exampleModalLiveLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h6 class="modal-title" id="exampleModalLiveLabel">新增文章</h6>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <form action="" id="forms">
+                                            <div class="mb-3 col-md-12">
+                                                <label for="type" class="form-label">项目</label>
+                                                <div class="form-controls">
+                                                    <select name="project_id" class="form-select" id="type">
+                                                        {volist name='pro' id='pro'}
+                                                        <option value="{$pro.id}">{$pro.name}</option>
+                                                        {/volist}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="mb-3 col-md-12">
+                                                <label for="title" class="form-label">标题</label>
+                                                <input type="text" class="form-control" id="card" name="title" value=""
+                                                    placeholder="" required />
+                                            </div>
+                                            <div class="mb-3 col-md-12">
+                                                <label for="seo_keywords" class="form-label">内容</label>
+                                                <textarea class="form-control" name="content"
+                                                    id="exampleFormControlTextarea1" rows="3"></textarea>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">关闭</button>
+                                    <button type="button" class="btn btn-primary" onclick="add_notice()">添加</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <p>当删除数据后并非真实的删除，而是采用软删除方式，若想真实删除数据可到回收站中寻找并真实删除，真实删除后将永久无法恢复该删除的数据！</p>
+                <div id="toolbar" class="toolbar-btn-action">
+                </div>
+                <table id="table"></table>
+            </div>
+        </div>
+    </div>
+    <!--Start 模态框-->
+    <div class="modal fade" id="newsModal">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <form action="/news/save" method="post" class="save-form"  id="save-form" novalidate>
+                    <div class="modal-header">
+                        <h6 class="modal-title"><span>新增</span>新闻</h6>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="mb-3 col-md-12">
+                                <label for="title" class="form-label">标题</label>
+                                <input type="text" class="form-control" id="card" name="title" value="" placeholder=""
+                                    required />
+                            </div>
+                            <div class="mb-3 col-md-12">
+                                <label for="seo_keywords" class="form-label">内容</label>
+                                <input type="text" class="form-control" id="value" name="content" value=""
+                                    placeholder="作者" required />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer text-center">
+                        <input type="hidden" name="id" id="news_id" value="" />
+                        <button type="button" class="btn btn-secondary close-btn">关闭</button>
+                        <button type="button" onclick="save_info()" class="btn btn-primary save-btn">保存</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!--End 模态框-->
+</div>
+
+{include file='public/footer'/}
+
+<script>
+    /**
+     * 分页相关的配置
+     **/
+    const pagination = {
+        // 分页方式：[client] 客户端分页，[server] 服务端分页
+        sidePagination: "client",
+        // 初始化加载第一页，默认第一页
+        pageNumber: 1,
+        // 每页的记录行数
+        pageSize: 10,
+        // 可供选择的每页的行数 - (亲测大于1000存在渲染问题)
+        pageList: [5, 10, 25, 50, 100],
+        // 在上百页的情况下体验较好 - 能够显示首尾页
+        paginationLoop: true,
+        // 展示首尾页的最小页数
+        paginationPagesBySide: 2
+    };
+
+    /**
+     * 按钮相关配置
+     **/
+    const button = {
+        // 按钮的类
+        buttonsClass: 'default',
+        // 类名前缀
+        buttonsPrefix: 'btn'
+    }
+
+    /**
+     * 图标相关配置
+     **/
+    const icon = {
+        // 图标前缀
+        iconsPrefix: 'mdi',
+        // 图标大小
+        iconSize: 'mini',
+        // 图标的设置
+        icons: {
+            paginationSwitchDown: 'mdi-door-closed',
+            paginationSwitchUp: 'mdi-door-open',
+            refresh: 'mdi-refresh',
+            toggleOff: 'mdi-toggle-switch-off',
+            toggleOn: 'mdi-toggle-switch',
+            columns: 'mdi-table-column-remove',
+            detailOpen: 'mdi-plus',
+            detailClose: 'mdi-minus',
+            fullscreen: 'mdi-monitor-screenshot',
+            search: 'mdi-table-search',
+            clearSearch: 'mdi-trash-can-outline'
+        }
+    };
+
+    /**
+     * 表格相关的配置
+     **/
+    const table = {
+        classes: 'table table-bordered table-hover table-striped lyear-table',
+        // 请求地址
+        url: '{:url("res")}',
+        // 唯一ID字段
+        uniqueId: 'id',
+        // 每行的唯一标识字段
+        idField: 'id',
+        // 是否启用点击选中行
+        clickToSelect: true,
+        // 是否显示详细视图和列表视图的切换按钮(clickToSelect同时设置为true时点击会报错)
+        // showToggle: true,
+        // 请求得到的数据类型
+        dataType: 'json',
+        // 请求方法
+        method: 'get',
+        // 工具按钮容器
+        toolbar: '#toolbar',
+        // 是否分页
+        pagination: true,
+        // 是否显示所有的列
+        showColumns: true,
+        // 是否显示刷新按钮
+        showRefresh: true,
+        // 显示图标
+        showButtonIcons: true,
+        // 显示文本
+        showButtonText: false,
+        // 显示全屏
+        showFullscreen: false,
+        // 开关控制分页
+        showPaginationSwitch: true,
+        // 总数字段
+        totalField: 'total',
+        // 当字段为 undefined 显示
+        undefinedText: '-',
+        // 排序方式
+        sortOrder: "asc",
+        ...icon,
+        ...pagination,
+        ...button
+    };
+
+    /**
+     * 用于演示的列信息
+     **/
+    const columns = [{
+        field: 'example',
+        checkbox: true,
+        // 列的宽度
+        width: 5,
+        // 宽度单位
+        widthUnit: 'rem'
+    }, {
+        field: 'id',
+        title: '编号',
+        // 使用[align]，[halign]和[valign]选项来设置列和它们的标题的对齐方式。
+        // h表示横向，v标识垂直
+        align: 'center',
+        // 是否作为排序列
+        sortable: true,
+        // 当列名称与实际名称不一致时可用
+        sortName: 'sortId',
+        switchable: false,
+        // 列的宽度
+        width: 8,
+        // 宽度单位
+        widthUnit: 'rem'
+    }, {
+        field: 'project_id',
+        align: 'center',
+        title: '归属项目',
+    }, {
+        field: 'title',
+        align: 'center',
+        title: '标题',
+    }, {
+        field: 'content',
+        align: 'center',
+        title: '内容',
+    }, {
+        field: 'author',
+        align: 'center',
+        title: '作者'
+    }, {
+        field: 'create_time',
+        align: 'center',
+        title: '时间'
+    }, {
+        field: 'operate',
+        title: '操作',
+        formatter: btnGroup,  // 自定义方法
+        events: {
+            'click .edit-btn': function (event, value, row, index) {
+                event.stopPropagation();
+                editUser(row.id);
+            },
+            'click .del-btn': function (event, value, row, index) {
+                event.stopPropagation();
+                delUser(row);
+            }
+        }
+    }];
+
+    // 自定义操作按钮
+    function btnGroup() {
+        let html =
+            '<a href="#!" class="btn btn-sm btn-default me-1 edit-btn" title="编辑" data-bs-toggle="tooltip"><i class="mdi mdi-pencil"></i></a>' +
+            '<a href="#!" class="btn btn-sm btn-default del-btn" title="删除" data-bs-toggle="tooltip"><i class="mdi mdi-window-close"></i></a>';
+        return html;
+    }
+
+    // 操作方法 - 编辑
+    function editUser(id) {
+        edit(id);
+        // alert('跳转修改信息');
+    }
+    // 操作方法 - 删除
+    function delUser() {
+        alert('信息删除成功');
+    }
+
+    $('table').bootstrapTable({
+        ...table,
+        // 自定义的查询参数
+        queryParams: function (params) {
+            return {
+                // 每页数据量
+                limit: params.limit,
+                // sql语句起始索引
+                offset: params.offset,
+                page: (params.offset / params.limit) + 1,
+                // 排序的列名
+                sort: params.sort,
+                // 排序方式 'asc' 'desc'
+                sortOrder: params.order
+            };
+        },
+        columns,
+        onLoadSuccess: function (data) {
+            $("[data-bs-toggle='tooltip']").tooltip();
+        }
+    });
+
+    var newsModal; // 模态框
+
+    /**
+     * 绑定模态框隐藏事件
+     */
+    $('#newsModal').get(0).addEventListener('hidden.bs.modal', function (event) {
+        $('.save-form').removeClass('was-validated');
+        $('.save-form').get(0).reset();
+    })
+
+    /**
+     * 关闭按钮
+     */
+    $(document).on('click', '.close-btn', function () {
+        newsModal.hide();
+    });
+
+    function edit(id) {
+        $.ajax({
+            type: "post",
+            url: "{:url('read')}",
+            data: {
+                id: id
+            },
+            dataType: 'json',
+            success: function (res) {
+                if (res.code == '200') {
+                    $('#newsModal').find('.modal-title span').text('编辑');
+                    $('#newsModal').find('#news_id').val(res.data.id);
+                    $('#newsModal').find('#card').val(res.data.title);
+                    $('#newsModal').find('#value').val(res.data.content);
+                    $('#newsModal').find('#start_time').val(res.data.start_time);
+                    $('#newsModal').find('#end_time').val(res.data.end_time);
+                    $('#newsModal').find('#create_time').val(res.data.create_time);
+                    $('#newsModal').find('input[name="status"]').eq(res.data.status).attr('checked', true);
+
+                    if (!newsModal) {
+                        newsModal = new bootstrap.Modal($('#newsModal').get(0), {
+                            keyboard: false,
+                            backdrop: 'static',
+                        });
+                    }
+                    newsModal.show();
+                } else {
+                    showNotify(res.msg, 'danger');
+                }
+            },
+            error: function () {
+                showNotify('服务器发生错误，请稍后再试', 'danger');
+            }
+        });
+
+    }
+    function save_info() {
+        $.ajax({
+            type:"POST",
+            url:"{:url('update')}",
+            data:$("#save-form").serialize(),
+            dataType:"json",
+            success: function (res){
+                if (res.code == 200) {
+                    showNotify(res.msg,'success');
+                }else{
+                    showNotify(res.msg,'danger');
+                }
+            }
+        });
+    }
+
+    function add_notice() {
+        $.ajax({
+            type: "post",
+            url: "{:url('save')}",
+            data: $("#forms").serialize(),
+            dataFilter: 'json',
+            success: function (res) {
+                if (res.code) {
+                    showNotify(res.msg, 'success');
+                } else {
+                    showNotify(res.msg, 'danger');
+                }
+            }
+        });
+    }
+</script>

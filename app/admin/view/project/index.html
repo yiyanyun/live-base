@@ -1,0 +1,502 @@
+{include file='public/header'/}
+
+<div class="row">
+
+    <div class="col-lg-12">
+        <div class="card">
+            <header class="card-header">
+                <div class="card-title">项目列表</div>
+            </header>
+            <div class="card-body">
+
+                <p>当删除用户后并非真实的删除，而是采用软删除方式，若想真实删除数据可到回收站中寻找并真实删除，真实删除后将永久无法恢复该删除的数据！</p>
+                <div id="toolbar" class="toolbar-btn-action">
+                    <button id="btn_add" type="button" class="btn btn-primary me-1" data-bs-toggle="modal"
+                        data-bs-target="#exampleModalLive">
+                        <span class="mdi mdi-plus" aria-hidden="true"></span>新增
+                    </button>
+                </div>
+
+                <div class="modal fade" id="exampleModalLive" tabindex="-1" aria-labelledby="exampleModalLiveLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h6 class="modal-title" id="exampleModalLiveLabel">新新增项目</h6>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="add" class="create_pro">
+                                    <div class="mb-3">
+                                        <label for="exampleInputEmail1" class="form-label">项目名称</label>
+                                        <input type="text" class="form-control" name="name" id="exampleInputEmail1"
+                                            aria-describedby="emailHelp">
+                                        <p>新增项目后需要立刻配置完整后才能正常运行</p>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">关闭</button>
+                                <button type="button" class="btn btn-primary" onclick="creates()">添加</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade" id="newsModal">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h6 class="modal-title" id="myModalLabel">详情</h6>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+
+                                <ul id="myTabs" class="nav nav-tabs" role="tablist">
+                                    <li class="nav-item"><a class="nav-link active" href="#userinfo"
+                                            data-bs-toggle="tab">基本信息</a>
+                                    </li>
+                                    <li class="nav-item"><a class="nav-link" href="#enclosure"
+                                            data-bs-toggle="tab">基本控制</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="#log" data-bs-toggle="tab">通信配置</a>
+                                    </li>
+                                </ul>
+                                <div id="myTabContent" class="tab-content p-2">
+                                    <div class="tab-pane fade show active" id="userinfo">
+                                        <div class="row">
+                                            <div class="mb-3 col-md-6">
+                                                <label for="title" class="form-label">项目ID</label>
+                                                <input type="text" class="form-control" id="news_id" name="title"
+                                                    value="" placeholder="" required disabled />
+                                            </div>
+                                            <div class="mb-3 col-md-6">
+                                                <label for="seo_keywords" class="form-label">项目名称</label>
+                                                <input type="text" class="form-control" id="name" name="author" value=""
+                                                    placeholder="作者" required disabled />
+                                            </div>
+                                            <div class="mb-3 col-md-6">
+                                                <label for="content" class="form-label">创建时间</label>
+                                                <input type="text" class="form-control" id="create_time" name="author"
+                                                    value="" placeholder="" required disabled />
+                                            </div>
+                                            <div class="mb-3 col-md-6">
+                                                <label for="sort" class="form-label">项目密钥</label>
+                                                <input type="text" class="form-control" id="key" name="sort" value="0"
+                                                    disabled />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="enclosure">
+                                        <form action="" id="info_a">
+                                            <div class="row">
+                                                <div class="mb-3 col-md-6">
+                                                    <label for="title" class="form-label">用户签到</label>
+                                                    <input type="text" class="form-control" id="clock_vip"
+                                                        name="clock_vip" value="" placeholder="可得VIP时常/小时" required />
+                                                </div>
+                                                <div class="mb-3 col-md-6">
+                                                    <label for="seo_keywords" class="form-label">登录间隔</label>
+                                                    <input type="text" class="form-control" id="login_interval"
+                                                        name="login_interval" value="" placeholder="单位为秒" required />
+                                                </div>
+                                                <div class="mb-3 col-md-6">
+                                                    <label for="content" class="form-label">用户设备</label>
+                                                    <input type="text" class="form-control" id="user_mac"
+                                                        name="user_mac" value="" placeholder="最多可登录多少台设备" required />
+                                                </div>
+                                                <div class="mb-3 col-md-6">
+                                                    <label for="content" class="form-label">卡密设备</label>
+                                                    <input type="text" class="form-control" id="card_mac"
+                                                        name="card_mac" value="" placeholder="最多可登录多少台设备" required />
+                                                </div>
+                                                <div class="mb-3 col-md-6">
+                                                    <label for="content" class="form-label">项目ID</label>
+                                                    <input type="text" class="form-control" id="info_a_id" name="id"
+                                                        value="" placeholder="" required />
+                                                </div>
+                                                <div class="mb-3 col-md-6">
+                                                    <label for="status" class="form-label">项目状态</label>
+                                                    <div class="clearfix">
+                                                        <div class="form-check form-check-inline">
+                                                            <input type="radio" id="statusOne" name="status"
+                                                                class="form-check-input" value="n">
+                                                            <label class="form-check-label" for="statusOne">禁用</label>
+                                                        </div>
+                                                        <div class="form-check form-check-inline">
+                                                            <input type="radio" id="statusTwo" name="status"
+                                                                class="form-check-input" value="y" checked>
+                                                            <label class="form-check-label" for="statusTwo">启用</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <button type="button" onclick="save_a()"
+                                                    class="btn btn-primary">保存</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="tab-pane fade" id="log">
+                                        <form action="" id="info_b">
+                                            <div class="row">
+                                                <div class="mb-3 col-md-6">
+                                                    <label for="title" class="form-label">加密类型</label>
+                                                    <select name="encryption_type" class="form-select" id="type">
+                                                        <option value="0">明文传输</option>
+                                                        <option value="1">Base64</option>
+                                                        <option value="2">AES</option>
+                                                    </select>
+                                                </div>
+                                                <div class="mb-3 col-md-6">
+                                                    <label for="seo_keywords" class="form-label">加密密钥</label>
+                                                    <input type="text" class="form-control" id="login_interval"
+                                                        name="encryption_key" value="" placeholder="密钥" required />
+                                                </div>
+                                                <div class="mb-3 col-md-12">
+                                                    <label for="content" class="form-label">项目ID</label>
+                                                    <input type="text" class="form-control" id="info_b_id" name="id"
+                                                        value="" placeholder="" required />
+                                                </div>
+                                                <button type="button" onclick="save_b()"
+                                                    class="btn btn-primary">保存</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-bs-dismiss="modal">关 闭</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <table id="table"></table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{include file='public/footer'/}
+
+<script>
+    /**
+     * 分页相关的配置
+     **/
+    const pagination = {
+        // 分页方式：[client] 客户端分页，[server] 服务端分页
+        sidePagination: "client",
+        // 初始化加载第一页，默认第一页
+        pageNumber: 1,
+        // 每页的记录行数
+        pageSize: 10,
+        // 可供选择的每页的行数 - (亲测大于1000存在渲染问题)
+        pageList: [5, 10, 25, 50, 100],
+        // 在上百页的情况下体验较好 - 能够显示首尾页
+        paginationLoop: true,
+        // 展示首尾页的最小页数
+        paginationPagesBySide: 2
+    };
+
+    /**
+     * 按钮相关配置
+     **/
+    const button = {
+        // 按钮的类
+        buttonsClass: 'default',
+        // 类名前缀
+        buttonsPrefix: 'btn'
+    }
+
+    /**
+     * 图标相关配置
+     **/
+    const icon = {
+        // 图标前缀
+        iconsPrefix: 'mdi',
+        // 图标大小
+        iconSize: 'mini',
+        // 图标的设置
+        icons: {
+            paginationSwitchDown: 'mdi-door-closed',
+            paginationSwitchUp: 'mdi-door-open',
+            refresh: 'mdi-refresh',
+            toggleOff: 'mdi-toggle-switch-off',
+            toggleOn: 'mdi-toggle-switch',
+            columns: 'mdi-table-column-remove',
+            detailOpen: 'mdi-plus',
+            detailClose: 'mdi-minus',
+            fullscreen: 'mdi-monitor-screenshot',
+            search: 'mdi-table-search',
+            clearSearch: 'mdi-trash-can-outline'
+        }
+    };
+
+    /**
+     * 表格相关的配置
+     **/
+    const table = {
+        classes: 'table table-bordered table-hover table-striped lyear-table',
+        // 请求地址
+        url: '{:url("res")}',
+        // 唯一ID字段
+        uniqueId: 'id',
+        // 每行的唯一标识字段
+        idField: 'id',
+        // 是否启用点击选中行
+        clickToSelect: true,
+        // 是否显示详细视图和列表视图的切换按钮(clickToSelect同时设置为true时点击会报错)
+        // showToggle: true,
+        // 请求得到的数据类型
+        dataType: 'json',
+        // 请求方法
+        method: 'get',
+        // 工具按钮容器
+        toolbar: '#toolbar',
+        // 是否分页
+        pagination: true,
+        // 是否显示所有的列
+        showColumns: true,
+        // 是否显示刷新按钮
+        showRefresh: true,
+        // 显示图标
+        showButtonIcons: true,
+        // 显示文本
+        showButtonText: false,
+        // 显示全屏
+        showFullscreen: true,
+        // 开关控制分页
+        showPaginationSwitch: true,
+        // 总数字段
+        totalField: 'total',
+        // 当字段为 undefined 显示
+        undefinedText: '-',
+        // 排序方式
+        sortOrder: "asc",
+        ...icon,
+        ...pagination,
+        ...button
+    };
+
+    /**
+     * 用于演示的列信息
+     **/
+    const columns = [{
+        field: 'example',
+        checkbox: true,
+        // 列的宽度
+        width: 5,
+        // 宽度单位
+        widthUnit: 'rem'
+    }, {
+        field: 'id',
+        title: '编号',
+        // 使用[align]，[halign]和[valign]选项来设置列和它们的标题的对齐方式。
+        // h表示横向，v标识垂直
+        align: 'center',
+        // 是否作为排序列
+        sortable: true,
+        // 当列名称与实际名称不一致时可用
+        sortName: 'sortId',
+        switchable: false,
+        // 列的宽度
+        width: 8,
+        // 宽度单位
+        widthUnit: 'rem'
+    }, {
+        field: 'name',
+        align: 'center',
+        title: '项目名称',
+        titleTooltip: '项目名称'
+    }, {
+        field: 'key',
+        align: 'center',
+        title: 'KEY',
+    }, {
+        field: 'create_time',
+        align: 'center',
+        title: '创建时间'
+    }, {
+        field: 'status',
+        title: '状态',
+        formatter: function (value, row, index) {
+            var value = "";
+            if (row.status == 'n') {
+                value = '<span class="badge bg-danger">禁用</span>';
+            } else if (row.status == 'y') {
+                value = '<span class="badge bg-success">正常</span>';
+            } else {
+                value = '<span class="badge bg-secondary">未知</span>';
+            }
+            return value;
+        }
+    }, {
+        field: 'operate',
+        title: '操作',
+        formatter: btnGroup,  // 自定义方法
+        events: {
+            'click .edit-btn': function (event, value, row, index) {
+                event.stopPropagation();
+                editUser(row.id);
+            },
+            'click .del-btn': function (event, value, row, index) {
+                event.stopPropagation();
+                delUser(row.id);
+            }
+        }
+    }];
+    // 自定义操作按钮
+    function btnGroup() {
+        let html =
+            '<a href="#!" class="btn btn-sm btn-default me-1 edit-btn" title="编辑" data-bs-toggle="tooltip"><i class="mdi mdi-pencil"></i></a>' +
+            '<a href="#!" class="btn btn-sm btn-default del-btn" title="删除" data-bs-toggle="tooltip"><i class="mdi mdi-window-close"></i></a>';
+        return html;
+    }
+
+    var newsModal; // 模态框
+
+    /**
+     * 绑定模态框隐藏事件
+     */
+    $('#newsModal').get(0).addEventListener('hidden.bs.modal', function (event) {
+        $('.save-form').removeClass('was-validated');
+        $('.save-form').get(0).reset();
+    })
+
+    /**
+     * 关闭按钮
+     */
+    $(document).on('click', '.close-btn', function () {
+        newsModal.hide();
+    });
+
+
+    // 操作方法 - 编辑
+    function editUser(id) {
+        $.ajax({
+            type: "post",
+            url: "{:url('read')}",
+            data: {
+                id: id
+            },
+            dataType: 'json',
+            success: function (res) {
+                if (res.code == '200') {
+                    $('#newsModal').find('.modal-title span').text('编辑');
+                    $('#newsModal').find('#news_id').val(res.data.id);
+                    $('#newsModal').find('#info_a_id').val(res.data.id);
+                    $('#newsModal').find('#info_b_id').val(res.data.id);
+                    $('#newsModal').find('#name').val(res.data.name);
+                    $('#newsModal').find('#key').val(res.data.key);
+                    $('#newsModal').find('#useremail').val(res.data.useremail);
+                    $('#newsModal').find('#ip').val(res.data.ip);
+                    $('#newsModal').find('#create_time').val(res.data.create_time);
+                    $('#newsModal').find('input[name="status"]').eq(res.data.status).attr('checked', true);
+
+                    if (!newsModal) {
+                        newsModal = new bootstrap.Modal($('#newsModal').get(0), {
+                            keyboard: false,
+                            backdrop: 'static',
+                        });
+                    }
+                    newsModal.show();
+                } else {
+                    showNotify(res.msg, 'danger');
+                }
+            },
+            error: function () {
+                showNotify('服务器发生错误，请稍后再试', 'danger');
+            }
+        });
+    }
+    // 操作方法 - 删除
+    function delUser(id) {
+        $.ajax({
+            type: "post",
+            url: "{:url('delete')}",
+            data: {
+                id: id
+            },
+            dataType: 'json',
+            success: function (res) {
+                if (res.code == 200) {
+                    showNotify('成功', 'success');
+                } else {
+                    showNotify('服务器发生错误，请稍后再试', 'danger');
+                }
+            }
+        })
+    }
+
+    $('table').bootstrapTable({
+        ...table,
+        // 自定义的查询参数
+        queryParams: function (params) {
+            return {
+                // 每页数据量
+                limit: params.limit,
+                // sql语句起始索引
+                offset: params.offset,
+                page: (params.offset / params.limit) + 1,
+                // 排序的列名
+                sort: params.sort,
+                // 排序方式 'asc' 'desc'
+                sortOrder: params.order
+            };
+        },
+        columns,
+        onLoadSuccess: function (data) {
+            $("[data-bs-toggle='tooltip']").tooltip();
+        }
+    });
+</script>
+
+<script>
+    function save_a() {
+        $.ajax({
+            type: 'POST',
+            url: "{:url('info_a')}",
+            data: $("#info_a").serialize(),
+            async: false,
+            success: function (res) {
+                if (res.code == 200) {
+                    showNotify(res.msg,'success');
+                } else {
+                    showNotify(res.msg,'danger');
+                }
+            }
+        });
+    }
+    function save_b() {
+        $.ajax({
+            type: 'POST',
+            url: "{:url('info_b')}",
+            data: $("#info_b").serialize(),
+            async: false,
+            success: function (res) {
+                if (res.code == 200) {
+                    showNotify(res.msg,'success');
+                } else {
+                    showNotify(res.msg,'danger');
+                }
+            }
+        });
+    }
+    function creates() {
+        $.ajax({
+            type:"post",
+            url:"{:url('create')}",
+            data:$(".create_pro").serialize(),
+            dataType:'json',
+            success: function (res) {
+                if (res.code == 200) {
+                    showNotify(res.msg,'success');
+                }else{
+                    showNotify(res.msg,'danger');
+                }
+            }
+        });
+    }
+</script>

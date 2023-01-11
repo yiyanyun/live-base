@@ -1,0 +1,98 @@
+<!--
+ * @Author       : Lucifer
+ * @Date         : 2022-12-12 13:46:31
+ * @LastEditTime : 2022-12-12 14:12:45
+ * @FilePath     : \ioucode_auth\app\admin\view\card\create.html
+-->
+{include file='public/header'/}
+<div class="row">
+
+    <div class="col-lg-12">
+        <div class="card">
+            <header class="card-header">
+                <div class="card-title">新增文档</div>
+            </header>
+            <div class="card-body">
+
+                <form action="#!" id="card_form" method="post" class="row">
+                    <div class="mb-3 col-md-6">
+                        <label for="type" class="form-label">项目</label>
+                        <div class="form-controls">
+                            <select name="project_id" class="form-select" id="type">
+                                {volist name='pro' id='pro'}
+                                <option value="{$pro.id}">{$pro.name}</option>
+                                {/volist}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-3 col-md-6">
+                        <label for="title" class="form-label">数量</label>
+                        <input type="text" class="form-control" id="title" name="number" value="" placeholder="请输入" />
+                    </div>
+                    <div class="mb-3 col-md-6">
+                        <label for="seo_keywords" class="form-label">面值</label>
+                        <input type="text" class="form-control" id="seo_keywords" name="value" value=""
+                            placeholder="单位为：天" />
+                    </div>
+                    <div class="mb-3 col-md-6">
+                        <label for="status" class="form-label">卡密长度</label>
+                        <div class="clearfix">
+                            <div class="form-check form-check-inline">
+                                <input type="radio" id="statusOne" name="status" class="form-check-input"
+                                    value="10">
+                                <label class="form-check-label" for="statusOne">10</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input type="radio" id="statusOne" name="status" class="form-check-input"
+                                    value="16">
+                                <label class="form-check-label" for="statusOne">16</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input type="radio" id="statusTwo" name="status" class="form-check-input"
+                                    value="32" checked>
+                                <label class="form-check-label" for="statusTwo">32</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input type="radio" id="statusTwo" name="status" class="form-check-input"
+                                    value="40" checked>
+                                <label class="form-check-label" for="statusTwo">40</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3 col-md-12">
+                        <label for="seo_description" class="form-label">描述</label>
+                        <textarea class="form-control" id="seo_description" name="describe" rows="5" value=""
+                            placeholder="描述"></textarea>
+                    </div>
+                    <div class="mb-3 col-md-12 text-center">
+                        <button type="button" onclick="create_save()" class="btn btn-primary ajax-post" target-form="add-form">确 定</button>
+                        <button type="button" class="btn btn-default"
+                            onclick="javascript:history.back(-1);return false;">返 回</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{include file='public/footer'/}
+
+<script>
+    function create_save(){
+        $.ajax({
+            type:"post",
+            url: "{:url('save')}",
+            data:$("#card_form").serialize(),
+            dataType:'json',
+            success: function (res){
+                if (res.code == 200) {
+                    showNotify(res.msg, 'success');
+                }else{
+                    showNotify('服务器发生错误，请稍后再试', 'danger');
+                }
+            }
+        });
+    }
+</script>

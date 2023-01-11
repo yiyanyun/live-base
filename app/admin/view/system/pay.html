@@ -1,0 +1,92 @@
+<!--
+ * @Author       : Lucifer
+ * @Date         : 2022-12-26 14:19:49
+ * @LastEditTime : 2022-12-26 14:33:13
+ * @FilePath     : \ioucode_auth\app\admin\view\system\pay.html
+-->
+{include file='public/header'/}
+
+<div class="row">
+
+    <div class="col-lg-12">
+        <div class="card">
+            <header class="card-header">
+                <div class="card-title">网站配置</div>
+            </header>
+            <div class="card-body">
+
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <button class="nav-link active" id="basic-config" data-bs-toggle="tab" data-bs-target="#config"
+                            type="button">支付宝配置</button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link" id="basic-sys" data-bs-toggle="tab" data-bs-target="#sys"
+                            type="button">微信配置</button>
+                    </li>
+                </ul>
+
+                <form action="#!" method="post" id="alipay" name="edit-form" class="edit-form">
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="config" aria-labelledby="basic-config">
+
+                            <div class="mb-3">
+                                <label for="web_site_title" class="form-label">APPID</label>
+                                <input class="form-control" type="text" id="alipay_appid" name="alipay_appid"
+                                    value="{$data.alipay_appid}" placeholder="请输入站点标题">
+                            </div>
+                            <div class="mb-3">
+                                <label for="web_site_title" class="form-label">签名方式（请使用默认）</label>
+                                <input class="form-control" type="text" id="alipay_sgintype" name="alipay_sgintype"
+                                    value="{$data.alipay_sgintype}" placeholder="请输入站点标题">
+                            </div>
+                            <div class="mb-3">
+                                <label for="web_site_description" class="form-label">私钥</label>
+                                <textarea class="form-control" id="alipay_private_key" rows="5"
+                                    name="alipay_private_key"
+                                    placeholder="">{$data.alipay_private_key}</textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="web_site_description" class="form-label">公钥</label>
+                                <textarea class="form-control" id="alipay_public_key" rows="5"
+                                    name="alipay_public_key"
+                                    placeholder="">{$data.alipay_public_key}</textarea>
+                            </div>
+                            <div>
+                                <button type="button" onclick="update()" class="btn btn-primary me-1">确 定</button>
+                                <button type="button" class="btn btn-default"
+                                    onclick="javascript:history.back(-1);return false;">返 回</button>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="sys" aria-labelledby="basic-sys">
+                            <div class="mb-3">
+                                <label for="wipe_cache_type" class="form-label">正在内测中</label>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{include file='public/footer'/}
+
+<script>
+    function update(){
+        $.ajax({
+            type:'post',
+            data:$("#alipay").serialize(),
+            url:"{:url('pay_update')}",
+            dataType:'json',
+            success: function (res){
+                if (res.code == 200) {
+                    showNotify(res.msg,'success');
+                }else{
+                    showNotify(res.msg,'danger');
+                }
+            }
+        });
+    }
+</script>

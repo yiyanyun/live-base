@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+  <meta name="keywords" content="LightYear,LightYearAdmin,光年,后台模板,后台管理系统,光年HTML模板">
+  <meta name="description" content="Light Year Admin V5是一个基于Bootstrap v5.1.3的后台管理系统的HTML模板。">
+  <meta name="author" content="yinq">
+  <title>首页 - 后台管理系统</title>
+  <link rel="shortcut icon" type="image/x-icon" href="/__IMG__/favicon.ico">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-touch-fullscreen" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <link rel="stylesheet" type="text/css" href="/__CSS__/materialdesignicons.min.css">
+  <link rel="stylesheet" type="text/css" href="/__CSS__/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="/__CSS__/animate.min.css">
+  <link rel="stylesheet" type="text/css" href="/__JS__/bootstrap-multitabs/multitabs.min.css">
+  <link rel="stylesheet" type="text/css" href="/__CSS__/style.min.css">
+  <link rel="stylesheet" type="text/css" href="/__JS__/bootstrap-multitabs/multitabs.min.css">
+
+  <style>
+    .icon-more {
+      display: block;
+      height: 68px;
+      line-height: 68px;
+      font-size: 1.5em;
+      cursor: pointer;
+      padding: 0 12px;
+      text-align: center;
+    }
+
+    .icon-more-content {
+      min-width: 260px;
+      padding: 10px;
+    }
+
+    .icon-more-content a {
+      text-align: center;
+      color: #4d5259;
+      padding: 10px;
+      border: 1px solid #fff;
+    }
+
+    .icon-more-content a:hover,
+    .icon-more-content a.active {
+      background-color: #f9fafb;
+    }
+
+    .icon-more-content a i {
+      font-size: 20px;
+    }
+
+    .icon-more-content span {
+      display: block;
+    }
+  </style>
+</head>
+
+<body class="lyear-index">
+  <div class="lyear-layout-web">
+    <div class="lyear-layout-container">
+      <!--左侧导航-->
+      <aside class="lyear-layout-sidebar">
+
+        <div id="logo" class="sidebar-header">
+          <p class="text-center" style="margin-top:30px"><img class="img-avatar img-avatar-48 m-r-10"
+              style="width: 50px;height: 50px;" src="/__IMG__/loading-logo.png" alt="其实这只是个图片" /></p>
+          <p class="text-center"><b><span>{:config('system.web_name')}</span></b> </p>
+        </div>
+
+        <div class="lyear-layout-sidebar-info lyear-scroll">
+          <nav class="sidebar-main">
+            <ul class="nav-drawer">
+              <li class="nav-item active">
+                <a class="multitabs" href="{:url('/admin/index/main')}" id="default-page">
+                  <i class="mdi mdi-home-city-outline"></i>
+                  <span>后台首页</span>
+                </a>
+              </li>
+              <li class="nav-item nav-item-has-subnav">
+                <a href="javascript:void(0)">
+                  <i class="mdi mdi-account-group-outline"></i>
+                  <span>用户管理</span>
+                </a>
+                <ul class="nav nav-subnav">
+                  <li> <a class="multitabs" href="{:url('/admin/user')}">用户列表</a> </li>
+                  <li> <a class="multitabs" href="{:url('/admin/user/analysis')}">用户分析</a> </li>
+                </ul>
+              </li>
+              <li class="nav-item nav-item-has-subnav">
+                <a href="javascript:void(0)">
+                  <i class="mdi mdi-projector-screen-variant-outline"></i>
+                  <span>项目管理</span>
+                </a>
+                <ul class="nav nav-subnav">
+                  <li> <a class="multitabs" href="{:url('/admin/project')}">项目列表</a> </li>
+                </ul>
+              </li>
+              <li class="nav-item nav-item-has-subnav">
+                <a href="javascript:void(0)">
+                  <i class="mdi mdi-archive-edit-outline"></i>
+                  <span>项目通知</span>
+                </a>
+                <ul class="nav nav-subnav">
+                  <li> <a class="multitabs" href="{:url('/admin/notice')}">项目列表</a> </li>
+                </ul>
+              </li>
+              <li class="nav-item nav-item-has-subnav">
+                <a href="javascript:void(0)">
+                  <i class="mdi mdi-card-bulleted-outline"></i>
+                  <span>卡密管理</span>
+                </a>
+                <ul class="nav nav-subnav">
+                  <li> <a class="multitabs" href="{:url('/admin/card')}">卡密列表</a> </li>
+                  <li> <a class="multitabs" href="{:url('/admin/card/create')}">卡密新增</a> </li>
+                </ul>
+              </li>
+              <li class="nav-item nav-item-has-subnav">
+                <a href="javascript:void(0)">
+                  <i class="mdi mdi-tune"></i>
+                  <span>代理管理</span>
+                </a>
+                <ul class="nav nav-subnav">
+                  <li> <a class="multitabs" href="{:url('/admin/agent')}">代理列表</a> </li>
+                </ul>
+              </li>
+              <li class="nav-item nav-item-has-subnav">
+                <a href="javascript:void(0)">
+                  <i class="mdi mdi-shopping-outline"></i>
+                  <span>商城发卡</span>
+                </a>
+                <ul class="nav nav-subnav">
+                  <li> <a class="multitabs" href="{:url('/admin/shop')}">商品列表</a> </li>
+                  <li> <a class="multitabs" href="{:url('/admin/shop/type')}">商品分类</a> </li>
+                  <li> <a class="multitabs" href="{:url('/admin/shop/order')}">订单列表</a> </li>
+                </ul>
+              </li>
+              <li class="nav-item nav-item-has-subnav">
+                <a href="javascript:void(0)">
+                  <i class="mdi mdi-cloud-search-outline"></i>
+                  <span>云端管理</span>
+                </a>
+                <ul class="nav nav-subnav">
+                  <li> <a class="multitabs" href="{:url('/admin/cloud')}">绑定云端</a> </li>
+                  <li> <a class="multitabs" href="{:url('/admin/cloud/up')}">系统更新</a> </li>
+                </ul>
+              </li>
+              <li class="nav-item nav-item-has-subnav">
+                <a href="javascript:void(0)">
+                  <i class="mdi mdi-tools"></i>
+                  <span>系统设置</span>
+                </a>
+                <ul class="nav nav-subnav">
+                  <li> <a class="multitabs" href="{:url('/admin/system/log')}">系统日志</a> </li>
+                  <li> <a class="multitabs" href="{:url('/admin/system/pay')}">支付设置</a> </li>
+                  <li> <a class="multitabs" href="{:url('/admin/system')}">系统设置</a> </li>
+                  <li> <a class="multitabs"
+                      data-url="https://console-docs.apipost.cn/preview/82c07dd481ea5fa3/e939e1992bb5f4fe">开发文档</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-item nav-item-has-subnav">
+                <a href="javascript:void(0)">
+                  <i class="mdi mdi-login-variant"></i>
+                  <span>退出登录</span>
+                </a>
+                <ul class="nav nav-subnav">
+                  <li> <a class="" href="{:url('/admin/login/logout')}">会话销毁</a> </li>
+                </ul>
+              </li>
+            </ul>
+          </nav>
+
+          <div class="sidebar-footer">
+            <p class="copyright">
+              <span>Copyright &copy; 2022. </span>
+              <a target="_blank" href="http://www.bixiaguangnian.com">{:config('system.web_name')}</a>
+              <span> All rights reserved.</span>
+            </p>
+          </div>
+        </div>
+
+      </aside>
+      <!--End 左侧导航-->
+
+      <!--头部信息-->
+      <header class="lyear-layout-header">
+
+        <nav class="navbar">
+
+          <div class="navbar-left">
+            <div class="lyear-aside-toggler">
+              <span class="lyear-toggler-bar"></span>
+              <span class="lyear-toggler-bar"></span>
+              <span class="lyear-toggler-bar"></span>
+            </div>
+          </div>
+
+
+          <ul class="navbar-right d-flex align-items-center">
+            <!--顶部消息部分-->
+            <li class="dropdown dropdown-notice">
+              <span data-bs-toggle="dropdown" class="position-relative icon-item">
+                <i class="mdi mdi-bell-outline fs-5"></i>
+                <span class="position-absolute translate-middle badge bg-danger">0</span>
+              </span>
+              <div class="dropdown-menu dropdown-menu-end">
+                <div class="lyear-notifications">
+
+                  <div class="lyear-notifications-title d-flex justify-content-between" data-stopPropagation="true">
+                    <span>你有 0 条未读消息</span>
+                    <a href="#!">查看全部</a>
+                  </div>
+                  <div class="lyear-notifications-info lyear-scroll">
+                  </div>
+
+                </div>
+              </div>
+            </li>
+            <!--End 顶部消息部分-->
+            <!--切换主题配色-->
+            <li class="dropdown dropdown-skin">
+              <span data-bs-toggle="dropdown" class="icon-item">
+                <i class="mdi mdi-palette fs-5"></i>
+              </span>
+              <ul class="dropdown-menu dropdown-menu-end" data-stopPropagation="true">
+                <li class="lyear-skin-title">
+                  <p>主题</p>
+                </li>
+                <li class="lyear-skin-li clearfix">
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="site_theme" id="site_theme_1" value="default"
+                      checked="checked">
+                    <label class="form-check-label" for="site_theme_1"></label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="site_theme" id="site_theme_2"
+                      value="translucent-green">
+                    <label class="form-check-label" for="site_theme_2"></label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="site_theme" id="site_theme_3"
+                      value="translucent-blue">
+                    <label class="form-check-label" for="site_theme_3"></label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="site_theme" id="site_theme_4"
+                      value="translucent-yellow">
+                    <label class="form-check-label" for="site_theme_4"></label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="site_theme" id="site_theme_5"
+                      value="translucent-red">
+                    <label class="form-check-label" for="site_theme_5"></label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="site_theme" id="site_theme_6"
+                      value="translucent-pink">
+                    <label class="form-check-label" for="site_theme_6"></label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="site_theme" id="site_theme_7"
+                      value="translucent-cyan">
+                    <label class="form-check-label" for="site_theme_7"></label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="site_theme" id="site_theme_8" value="dark">
+                    <label class="form-check-label" for="site_theme_8"></label>
+                  </div>
+                </li>
+              </ul>
+            </li>
+            <!--End 切换主题配色-->
+            <!--个人头像内容-->
+            <li class="dropdown">
+              <a href="javascript:void(0)" data-bs-toggle="dropdown" class="dropdown-toggle">
+                <img class="avatar-md rounded-circle" src="/__IMG__/users/avatar.jpg" alt="笔下光年" />
+                <span style="margin-left: 10px;">Administrator</span>
+              </a>
+              <ul class="dropdown-menu dropdown-menu-end">
+                <li>
+                  <a class="multitabs dropdown-item" data-url="lyear_pages_profile.html" href="javascript:void(0)">
+                    <i class="mdi mdi-account"></i>
+                    <span>个人信息</span>
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="javascript:void(0)">
+                    <i class="mdi mdi-delete"></i>
+                    <span>清空缓存</span>
+                  </a>
+                </li>
+                <li class="dropdown-divider"></li>
+                <li>
+                  <a class="dropdown-item" href="{:url('/admin/login/logout')}">
+                    <i class="mdi mdi-logout-variant"></i>
+                    <span>退出登录</span>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <!--End 个人头像内容-->
+          </ul>
+
+        </nav>
+
+      </header>
+      <!--End 头部信息-->
+
+      <!--页面主要内容-->
+      <main class="lyear-layout-content">
+
+        <div id="iframe-content"></div>
+
+      </main>
+      <!--End 页面主要内容-->
+    </div>
+  </div>
+
+  <script type="text/javascript" src="/__JS__/jquery.min.js"></script>
+  <script type="text/javascript" src="/__JS__/popper.min.js"></script>
+  <script type="text/javascript" src="/__JS__/bootstrap.min.js"></script>
+  <script type="text/javascript" src="/__JS__/perfect-scrollbar.min.js"></script>
+  <script type="text/javascript" src="/__JS__/bootstrap-multitabs/multitabs.min.js"></script>
+  <script type="text/javascript" src="/__JS__/jquery.cookie.min.js"></script>
+  <script type="text/javascript" src="/__JS__/index.min.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function (e) { });
+
+
+    function opapp() {
+      $(this).addClass('active');
+      $(this).siblings().removeClass('active');
+    }
+  </script>
+</body>
+
+</html>

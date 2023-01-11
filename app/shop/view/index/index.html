@@ -1,0 +1,255 @@
+<!--
+ * @Author       : Lucifer
+ * @Date         : 2022-12-22 12:10:47
+ * @LastEditTime : 2022-12-25 22:03:11
+ * @FilePath     : \ioucode_auth\app\shop\view\index\index.html
+-->
+
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <meta name="keywords" content="LightYear,LightYearAdmin,光年,后台模板,后台管理系统,光年HTML模板">
+    <meta name="description" content="Light Year Admin V5是一个基于Bootstrap v5.1.3的后台管理系统的HTML模板。">
+    <title>云商城 - 首页</title>
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <link rel="stylesheet" type="text/css" href="/__CSS__/materialdesignicons.min.css">
+    <link rel="stylesheet" type="text/css" href="/__CSS__/bootstrap.min.css">
+    <!--对话框插件css-->
+    <link rel="stylesheet" type="text/css" href="/__JS__/jquery-confirm/jquery-confirm.min.css">
+    <link rel="stylesheet" type="text/css" href="/__CSS__/style.min.css">
+    <!--引入下拉插件css-->
+    <link rel="stylesheet" type="text/css" href="/__JS__/bootstrap-select/bootstrap-select.min.css">
+    <!--对话框插件css-->
+    <link rel="stylesheet" type="text/css" href="/__JS__/jquery-confirm/jquery-confirm.min.css">
+    <link rel="stylesheet" type="text/css" href="/__CSS__/style.min.css">
+
+    <style>
+        .boxs {
+            /* position: absolute; */
+            /* top: 0; */
+            /* bottom: 0;*/
+            left: 0;
+            right: 0;
+            margin: auto;
+        }
+    </style>
+</head>
+
+<body style="background-color: #f4f5fa;">
+    <div class="container-fluid">
+
+        <div class="row">
+
+            <div class="col-lg-6 boxs">
+                <div class="card">
+                    <div class="card-body">
+
+                        <p class="text-center">
+                            <img src="/__IMG__/loading-logo.png" style="width: 100px;border-radius: 100%;"
+                                class="rounded" alt="...">
+                        </p>
+
+                        <div class="alert alert-primary" role="alert">
+                            此模块为显示公告
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row">
+
+            <div class="col-lg-6 boxs">
+                <div class="card">
+                    <header class="card-header">
+                        <div class="card-title">购物</div>
+                    </header>
+                    <div class="card-body">
+
+                        <ul class=" text-center nav nav-tabs">
+                            <li class="nav-item">
+                                <button class="nav-link active" id="basic-config" data-bs-toggle="tab"
+                                    data-bs-target="#config" type="button">商品购买</button>
+                            </li>
+                            <li class="nav-item">
+                                <button class="nav-link" id="basic-sys" data-bs-toggle="tab" data-bs-target="#sys"
+                                    type="button">订单查询</button>
+                            </li>
+                            <li class="nav-item">
+                                <button class="nav-link" id="basic-info" data-bs-toggle="tab" data-bs-target="#info"
+                                    type="button">资讯查看</button>
+                            </li>
+                        </ul>
+
+                        <div class="tab-content">
+                            <div class="tab-pane fade show active" id="config" aria-labelledby="basic-config">
+                                <div class="mb-3">
+                                    <label for="example-4">请选择分类</label>
+                                    <select class="form-control selectpicker" id="app" name="app"
+                                        data-live-search="true" onchange="getPoint(this);">
+                                        {volist name='data.app' id='apps'}
+                                        <option value="{$apps.id}">{$apps.name}</option>
+                                        {/volist}
+                                    </select>
+                                </div>
+
+                                <form action="#!" id="pay_buy">
+                                    <div class="mb-3">
+                                        <label for="example-4">请选择商品</label>
+                                        <select class="form-select" data-live-search="true" name="goodstype" id="gid">
+                                            <!-- 此处等待js的填充 -->
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="example-4">请选择商品</label>
+                                        <input type="text" class="form-control" id="find_order" name="mail" value=""
+                                            placeholder="请输入您的邮箱进行接收内容" required />
+                                    </div>
+                                </form>
+                                <div class="mb-3 text-center">
+                                    <button class="btn btn-indigo btn-round" onclick="submit_buy()">下 单</button>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade text-center" id="sys" aria-labelledby="basic-sys">
+                                <form action="#!" id="find_orders">
+                                    <div class="mb-3">
+                                        <label for="example-4">请使用订单号查询</label>
+                                        <input type="text" class="form-control" id="find_order" name="find_order"
+                                            value="" placeholder="" required />
+                                    </div>
+                                </form>
+                                <div class="mb-3 text-center">
+                                    <button class="btn btn-info btn-round" onclick="find()">查 询</button>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade text-center" id="info" aria-labelledby="basic-info">
+                                <div class="mb-3">
+                                    {$data.system.information}
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div class="row">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="alert alert-info" role="alert">
+                                        请将订单号保存好，并且防止泄露，他人可通过订单号查询订单的相关开放信息等！
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="/__JS__/jquery.min.js"></script>
+    <script type="text/javascript" src="/__JS__/popper.min.js"></script>
+    <script type="text/javascript" src="/__JS__/bootstrap.min.js"></script>
+    <!--对话框插件js-->
+    <!--引入下拉插件js-->
+    <script type="text/javascript" src="/__JS__/bootstrap-notify.min.js"></script>
+    <script type="text/javascript" src="/__JS__/bootstrap-select/bootstrap-select.min.js"></script>
+    <script type="text/javascript" src="/__JS__/bootstrap-select/i18n/defaults-zh_CN.min.js"></script>
+    <!--对话框插件js-->
+    <script type="text/javascript" src="/__JS__/jquery-confirm/jquery-confirm.min.js"></script>
+    <script type="text/javascript" src="/__JS__/main.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // 默认
+            $('.selectpicker').selectpicker();
+        });
+        function getPoint(e) {
+            var d = $(e).val();//获取该分类的ID
+            $.ajax({
+                type: "POST",
+                url: "{:url('getType')}",
+                data: { "tyid": d },
+                dataType: 'json',
+                success: function (data) {
+                    $("#gid").html(data.msg);
+                },
+                error: function (data) {
+                    alert("error");
+                }
+            });
+        }
+
+        $(function () {
+            getPoint($("#app"));
+        })
+
+        function find() {
+            $.ajax({
+                type: 'POST',
+                url: "{:url('find_order')}",
+                data: $("#find_orders").serialize(),
+                dataType: 'json',
+                success: function (res) {
+                    if (res.code == 200) {
+                        $.alert({
+                            title: '查询成功',
+                            icon: 'mdi mdi-alert',
+                            type: 'orange',
+                            content: '订单号：' + res.data.order_id + '<hr>' + '创建时间：' + res.data.create_time + '<hr>' + '支付金额：' + res.data.coin,
+                        });
+                        showNotify(res.msg, 'success');
+                    } else {
+                        showNotify(res.msg, 'danger');
+                    }
+                },
+            });
+        }
+
+        function submit_buy() {
+            $.ajax({
+                type: 'POST',
+                url: "{:url('pay_buy')}",
+                data: $("#pay_buy").serialize(),
+                dataType: 'json',
+                success: function (res) {
+                    if (res.code) {
+                        $.confirm({
+                            title: '订单信息',
+                            escapeKey: true,
+                            content: '请保存好你的订单号 | ' + res.data.order.order_id,
+                            backgroundDismiss: true,
+                            buttons: {
+                                okay: {
+                                    text: '前往支付',
+                                    keys: ['enter'],
+                                    action: function () {
+                                        showNotify('服务器正在处理~', 'success');
+                                        setTimeout(function () {
+                                            location.href = '{:url("/shop/pay")}?order=' + res.data.order.order_id;
+                                        }, 1500);
+                                        // setTimeout("location.href={:url('/shop/pay')}?order=res.data.order.order_id", 3000);
+                                    }
+                                }
+                            },
+                        });
+                    } else {
+                        showNotify(res.msg, 'danger');
+                    }
+                }
+            })
+        }
+    </script>
+</body>
+
+</html>

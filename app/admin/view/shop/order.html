@@ -1,0 +1,297 @@
+<!--
+ * @Author       : Lucifer
+ * @Date         : 2022-12-10 14:05:11
+ * @LastEditTime : 2022-12-22 17:50:04
+ * @FilePath     : \ioucode_auth\app\admin\view\shop\order.html
+-->
+
+
+{include file='public/header'/}
+<link rel="stylesheet" href="/__JS__/bootstrap-material-datetimepicker/bootstrap-material-datetimepicker.min.css">
+
+<div class="row">
+
+    <div class="col-lg-12">
+        <div class="card">
+            <header class="card-header">
+                <div class="card-title">列表</div>
+            </header>
+            <div class="card-body">
+
+                <p>数据一定要保持无相同，否者容易出错</p>
+                <div id="toolbar" class="toolbar-btn-action">
+                </div>
+                <table id="table"></table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{include file='public/footer'/}
+
+
+<script src="/__JS__/momentjs/moment.min.js"></script>
+<script src="/__JS__/bootstrap-material-datetimepicker/bootstrap-material-datetimepicker.min.js"></script>
+<script src="/__JS__/momentjs/locale/zh-cn.min.js"></script>
+<script>
+    /**
+     * 分页相关的配置
+     **/
+    const pagination = {
+        // 分页方式：[client] 客户端分页，[server] 服务端分页
+        sidePagination: "client",
+        // 初始化加载第一页，默认第一页
+        pageNumber: 1,
+        // 每页的记录行数
+        pageSize: 20,
+        // 可供选择的每页的行数 - (亲测大于1000存在渲染问题)
+        pageList: [5, 10, 25, 50, 100],
+        // 在上百页的情况下体验较好 - 能够显示首尾页
+        paginationLoop: true,
+        // 展示首尾页的最小页数
+        paginationPagesBySide: 2
+    };
+
+    /**
+     * 按钮相关配置
+     **/
+    const button = {
+        // 按钮的类
+        buttonsClass: 'default',
+        // 类名前缀
+        buttonsPrefix: 'btn'
+    }
+
+    /**
+     * 图标相关配置
+     **/
+    const icon = {
+        // 图标前缀
+        iconsPrefix: 'mdi',
+        // 图标大小
+        iconSize: 'mini',
+        // 图标的设置
+        icons: {
+            paginationSwitchDown: 'mdi-door-closed',
+            paginationSwitchUp: 'mdi-door-open',
+            refresh: 'mdi-refresh',
+            toggleOff: 'mdi-toggle-switch-off',
+            toggleOn: 'mdi-toggle-switch',
+            columns: 'mdi-table-column-remove',
+            detailOpen: 'mdi-plus',
+            detailClose: 'mdi-minus',
+            fullscreen: 'mdi-monitor-screenshot',
+            search: 'mdi-table-search',
+            clearSearch: 'mdi-trash-can-outline'
+        }
+    };
+
+    /**
+     * 表格相关的配置
+     **/
+    const table = {
+        classes: 'table table-bordered table-hover table-striped lyear-table',
+        // 请求地址
+        url: '{:url("order_res")}',
+        // 唯一ID字段
+        uniqueId: 'id',
+        // 每行的唯一标识字段
+        idField: 'id',
+        // 是否启用点击选中行
+        clickToSelect: true,
+        // 是否显示详细视图和列表视图的切换按钮(clickToSelect同时设置为true时点击会报错)
+        // showToggle: true,
+        // 请求得到的数据类型
+        dataType: 'json',
+        // 请求方法
+        method: 'get',
+        // 工具按钮容器
+        toolbar: '#toolbar',
+        // 是否分页
+        pagination: true,
+        // 是否显示所有的列
+        showColumns: true,
+        // 是否显示刷新按钮
+        showRefresh: true,
+        // 显示图标
+        showButtonIcons: true,
+        // 显示文本
+        showButtonText: false,
+        // 显示全屏
+        showFullscreen: false,
+        // 开关控制分页
+        showPaginationSwitch: true,
+        // 总数字段
+        totalField: 'total',
+        // 当字段为 undefined 显示
+        undefinedText: '-',
+        // 排序方式
+        sortOrder: "desc",
+        showExport: true,        // 是否显示导出按钮, 导出功能需要导出插件支持(tableexport.min.js)
+        exportDataType: "selected", // 导出数据类型, 'basic':当前页, 'all':所有数据, 'selected':选中的数据
+        ...icon,
+        ...pagination,
+        ...button
+    };
+
+    /**
+     * 用于演示的列信息
+     **/
+    const columns = [{
+        field: 'example',
+        checkbox: true,
+        // 列的宽度
+        width: 5,
+        // 宽度单位
+        widthUnit: 'rem'
+    }, {
+        field: 'id',
+        title: '编号',
+        // 使用[align]，[halign]和[valign]选项来设置列和它们的标题的对齐方式。
+        // h表示横向，v标识垂直
+        align: 'center',
+        // 是否作为排序列
+        sortable: true,
+        // 当列名称与实际名称不一致时可用
+        sortName: 'sortId',
+        switchable: false,
+        // 列的宽度
+        width: 8,
+        // 宽度单位
+        widthUnit: 'rem'
+    }, {
+        field: 'project_id',
+        align: 'center',
+        title: '归属项目',
+    }, {
+        field: 'ip',
+        align: 'center',
+        title: 'IP',
+    }, {
+        field: 'res',
+        align: 'center',
+        title: '商品',
+    }, {
+        field: 'coin',
+        align: 'center',
+        title: '价格',
+    }, {
+        field: 'create_time',
+        align: 'center',
+        title: '创建时间'
+    }, {
+        field: 'status',
+        title: '状态',
+        formatter: function (value, row, index) {
+            var value = "";
+            if (row.status == 'n') {
+                value = '<span class="badge bg-danger">未完成</span>';
+            } else if (row.status == 'y') {
+                value = '<span class="badge bg-success">已完成</span>';
+            } else {
+                value = '<span class="badge bg-secondary">未知</span>';
+            }
+            return value;
+        }
+    }, {
+        field: 'operate',
+        title: '操作',
+        formatter: btnGroup,  // 自定义方法
+        events: {
+            'click .edit-btn': function (event, value, row, index) {
+                event.stopPropagation();
+                editUser(row.id);
+            },
+            'click .del-btn': function (event, value, row, index) {
+                event.stopPropagation();
+                delUser(row.id);
+            }
+        }
+    }];
+
+    // 自定义操作按钮
+    function btnGroup() {
+        let html =
+            '<a href="#!" class="btn btn-sm btn-default del-btn" title="删除" data-bs-toggle="tooltip"><i class="mdi mdi-window-close"></i></a>';
+        return html;
+    }
+
+    // 操作方法 - 编辑
+    function editUser(id) {
+        edit(id);
+    }
+    // 操作方法 - 删除
+    function delUser(id) {
+        $.ajax({
+            type: "post",
+            url: "{:url('delete')}",
+            data: {
+                id: id
+            },
+            dataType: 'json',
+            success: function (res) {
+                if (res.code == 200) {
+                    showNotify('成功', 'success');
+                } else {
+                    showNotify('服务器发生错误，请稍后再试', 'danger');
+                }
+            }
+        })
+    }
+
+    $('table').bootstrapTable({
+        ...table,
+        // 自定义的查询参数
+        queryParams: function (params) {
+            return {
+                // 每页数据量
+                limit: params.limit,
+                // sql语句起始索引
+                offset: params.offset,
+                page: (params.offset / params.limit) + 1,
+                // 排序的列名
+                sort: params.sort,
+                // 排序方式 'asc' 'desc'
+                // sortOrder: params.order
+                sortOrder: params.order.desc
+            };
+        },
+        columns,
+        onLoadSuccess: function (data) {
+            $("[data-bs-toggle='tooltip']").tooltip();
+        }
+    });
+
+    var newsModal; // 模态框
+
+    /**
+     * 绑定模态框隐藏事件
+     */
+    $('#newsModal').get(0).addEventListener('hidden.bs.modal', function (event) {
+        $('.save-form').removeClass('was-validated');
+        $('.save-form').get(0).reset();
+    })
+
+    /**
+     * 关闭按钮
+     */
+    $(document).on('click', '.close-btn', function () {
+        newsModal.hide();
+    });
+
+    function add() {
+        $.ajax({
+            type: "POST",
+            url: "{:url('type_save')}",
+            dataType: 'json',
+            data: $(".save-form").serialize(),
+            success: function (res) {
+                if (res.code == 200) {
+                    showNotify(res.msg, 'success');
+                } else {
+                    showNotify(res.msg, 'danger');
+                }
+            }
+        });
+    }
+</script>

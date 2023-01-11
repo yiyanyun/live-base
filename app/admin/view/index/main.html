@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+	<meta name="keywords" content="LightYear,LightYearAdmin,光年,后台模板,后台管理系统,光年HTML模板">
+	<meta name="description" content="Light Year Admin V5是一个基于Bootstrap v5.1.3的后台管理系统的HTML模板。">
+	<title>首页 - 光年(Light Year Admin V4)后台管理系统模板</title>
+	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-touch-fullscreen" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="default">
+	<link rel="stylesheet" type="text/css" href="/__CSS__/materialdesignicons.min.css">
+	<link rel="stylesheet" type="text/css" href="/__CSS__/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="/__CSS__/style.min.css">
+</head>
+
+<body>
+	<div class="container-fluid">
+
+		<!--布局的统计-->
+		<div class="row">
+			<div class="col-sm-6 col-md-6 col-lg-3">
+				<div class="card">
+					<div class="card-body">
+						<div class="flex-box">
+							<div>
+								<p class="text-muted me-2">项目总数</p>
+								<h2>{$data.project}</h2>
+							</div>
+							<span class="avatar-md rounded-circle avatar-box text-white bg-primary">
+								<i class="mdi mdi-currency-cny fs-4"></i>
+							</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-6 col-md-6 col-lg-3">
+				<div class="card">
+					<div class="card-body">
+						<div class="flex-box">
+							<div>
+								<p class="text-muted me-2">用户总数</p>
+								<h2>{$data.user}</h2>
+							</div>
+							<span class="avatar-md rounded-circle avatar-box text-white bg-primary">
+								<i class="mdi mdi-shopping fs-4"></i>
+							</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-6 col-md-6 col-lg-3">
+				<div class="card">
+					<div class="card-body">
+						<div class="flex-box">
+							<div>
+								<p class="text-muted me-2">卡密总数</p>
+								<h2>{$data.card}</h2>
+							</div>
+							<span class="avatar-md rounded-circle avatar-box text-white bg-primary">
+								<i class="mdi mdi-account fs-4"></i>
+							</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-6 col-md-6 col-lg-3">
+				<div class="card">
+					<div class="card-body">
+						<div class="flex-box">
+							<div>
+								<p class="text-muted me-2">代理总数</p>
+								<h2>{$data.agent}</h2>
+							</div>
+							<span class="avatar-md rounded-circle avatar-box text-white bg-primary">
+								<i class="mdi mdi-comment-outline fs-4"></i>
+							</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- 统计图 -->
+		<div class="row">
+			<div class="col-md-6">
+				<div class="card">
+					<div class="card-header">
+						<div class="card-title">每周用户</div>
+					</div>
+					<div class="card-body">
+						<canvas class="js-chartjs-bars"></canvas>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-6">
+				<div class="card">
+					<div class="card-header">
+						<div class="card-title">每周激活</div>
+					</div>
+					<div class="card-body">
+						<canvas class="js-chartjs-lines"></canvas>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</body>
+
+<script type="text/javascript" src="/__JS__/jquery.min.js"></script>
+<script type="text/javascript" src="/__JS__/popper.min.js"></script>
+<script type="text/javascript" src="/__JS__/bootstrap.min.js"></script>
+<script type="text/javascript" src="/__JS__/chart.min.js"></script>
+<!--引入chart插件js-->
+<script type="text/javascript" src="/__JS__/main.min.js"></script>
+<script type="text/javascript">
+	$(document).ready(function (e) {
+		var $dashChartBarsCnt = jQuery('.js-chartjs-bars')[0].getContext('2d'),
+			$dashChartLinesCnt = jQuery('.js-chartjs-lines')[0].getContext('2d');
+
+		var $dashChartBarsData = {
+			labels: ['<?php echo date("d",time());?>', '<?php echo date("d",time() - 86400);?>', '<?php echo date("d",time() - 86400 *2);?>', '<?php echo date("d",time() - 86400*3);?>', '<?php echo date("d",time() - 86300 * 4);?>', '<?php echo date("d",time() - 86400 * 5);?>', '<?php echo date("d",time() * 6);?>'],
+			datasets: [{
+				label: '注册用户',
+				borderWidth: 3,
+				borderColor: 'rgba(0, 0, 0, 0)',
+				backgroundColor: 'rgba(0, 123, 255,0.5)',
+				hoverBackgroundColor: "rgba(0, 123, 255, 0.7)",
+				hoverBorderColor: "rgba(0, 0, 0, 0)",
+				data: {$data.user_data}
+			}]
+		};
+		var $dashChartLinesData = {
+			labels: ['<?php echo date("d",time());?>', '<?php echo date("d",time() - 86400);?>', '<?php echo date("d",time() - 86400 *2);?>', '<?php echo date("d",time() - 86400*3);?>', '<?php echo date("d",time() - 86300 * 4);?>', '<?php echo date("d",time() - 86400 * 5);?>', '<?php echo date("d",time() * 6);?>'],
+			datasets: [{
+				label: '激活使用',
+				data: {$data.card_data},
+				borderColor: '#007bff',
+				backgroundColor: 'rgba(0, 123, 255, 0.175)',
+				borderWidth: 2,
+				fill: false,
+				lineTension: 0.5
+			}]
+		};
+
+		new Chart($dashChartBarsCnt, {
+			type: 'bar',
+			data: $dashChartBarsData
+		});
+
+		var myLineChart = new Chart($dashChartLinesCnt, {
+			type: 'line',
+			data: $dashChartLinesData,
+		});
+	});
+</script>
+</body>
+
+</html>

@@ -1,0 +1,44 @@
+<!--
+ * @Author       : Lucifer
+ * @Date         : 2022-12-17 11:59:31
+ * @LastEditTime : 2023-01-11 20:30:50
+ * @FilePath     : \ioucode_auth\app\admin\view\cloud\index.html
+-->
+{include file='public/header'/}
+
+
+
+<div class="row">
+
+    <div class="col-lg-12">
+        <div class="card">
+            <header class="card-header">
+                <div class="card-title">信息详细</div>
+            </header>
+            <div class="card-body">
+
+                <p>更多资讯请查看官方地址~~</p>
+                <p class="text-success">云端地址：<a href="https://github.com/huanruanx/free-auth.git" target="_blank"
+                        class="text-center">https://github.com/huanruanx/free-auth</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    {volist name='new' id='new'}
+    <div class="col-lg-12">
+        <div class="card">
+            <header class="card-header">
+                <div class="card-title"><a href="{$new.url}" target="_blank">{$new.id}</a></div>
+            </header>
+            <div class="card-body">
+                <p class="text-success">{$new.introduce}</p>
+            </div>
+        </div>
+    </div>
+    {/volist}
+</div>
+
+
+{include file='public/footer'/}

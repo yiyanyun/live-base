@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <meta name="keywords" content="LightYear,LightYearAdmin,光年,后台模板,后台管理系统,光年HTML模板">
+    <meta name="description" content="Light Year Admin V5是一个基于Bootstrap v5.1.3的后台管理系统的HTML模板。">
+    <meta name="author" content="yinq">
+    <title>登录 - 超级控制面板</title>
+    <link rel="shortcut icon" type="image/x-icon" href="/__IMG__/favicon.ico">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <link rel="stylesheet" type="text/css" href="/__CSS__/materialdesignicons.min.css">
+    <link rel="stylesheet" type="text/css" href="/__CSS__/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/__CSS__/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/__CSS__/style.min.css">
+    <style>
+        .signin-form .has-feedback {
+            position: relative;
+        }
+
+        .signin-form .has-feedback .form-control {
+            padding-left: 36px;
+        }
+
+        .signin-form .has-feedback .mdi {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: auto;
+            width: 36px;
+            height: 36px;
+            line-height: 36px;
+            z-index: 4;
+            color: #dcdcdc;
+            display: block;
+            text-align: center;
+            pointer-events: none;
+        }
+
+        .signin-form .has-feedback.row .mdi {
+            left: 15px;
+        }
+
+        .signin-form .form-group:last-child,
+        .login-right p:last-child {
+            margin-bottom: 0px;
+        }
+
+        .login-right {
+            background: #67b26f !important;
+            background: -moz-linear-gradient(45deg, #67b26f 0, #4ca2cd 100%) !important;
+            background: -webkit-linear-gradient(45deg, #67b26f 0, #4ca2cd 100%) !important;
+            background: linear-gradient(45deg, #67b26f 0, #4ca2cd 100%) !important;
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#67b26f', endColorstr='#4ca2cd', GradientType=1) !important;
+        }
+
+        .login-box {
+            max-width: 700px;
+        }
+
+        .login-right {
+            max-width: 50%;
+        }
+    </style>
+</head>
+
+<body class="center-vh" style="background-image: url(/__IMG__/login-bg-3.jpg); background-size: cover;">
+    <div class="bg-translucent p-2">
+        <div class="flex-box bg-white login-box">
+            <div class="login-left p-5">
+
+                <div class="text-center mb-3 d-sm-none">
+                    <a href="index.html"> <img alt="light year admin" src="/__IMG__/logo-sidebar.png"> </a>
+                </div>
+                <form action="#!" method="post" id="forms" class="signin-form needs-validation" novalidate>
+                    <div class="mb-3 has-feedback">
+                        <span class="mdi mdi-account" aria-hidden="true"></span>
+                        <input type="text" class="form-control" name="username" id="username" placeholder="用户名" required>
+                    </div>
+
+                    <div class="mb-3 has-feedback">
+                        <span class="mdi mdi-lock" aria-hidden="true"></span>
+                        <input type="password" class="form-control" id="password" name="password" placeholder="密码" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="rememberme">
+                            <label class="form-check-label not-user-select" for="rememberme">5天内自动登录</label>
+                        </div>
+                    </div>
+
+                    <div class="mb-3 d-grid">
+                        <button class="btn btn-primary" type="submit">立即登录</button>
+                    </div>
+                </form>
+            </div>
+            <div class="login-right p-5 d-none d-sm-block">
+                <p class="mb-3"><img src="/__IMG__/logo.png" alt="logo" /></p>
+                <p class="text-white">超级管理面板登录入口</p>
+                <p class="text-white align-self-end">Copyright © 2022 <a target="_blank"
+                        href="http://www.bixiaguangnian.com" class="text-white">{:config('system.web_name')}</a>. All right reserved</p>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="/__JS__/jquery.min.js"></script>
+    <script type="text/javascript" src="/__JS__/popper.min.js"></script>
+    <script type="text/javascript" src="/__JS__/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/__JS__/bootstrap-notify.min.js"></script>
+    <script type="text/javascript" src="/__JS__/lyear-loading.js"></script>
+    <script type="text/javascript">
+        var loader;
+        $(document).ajaxStart(function () {
+            $("button:submit").html('登录中...').attr("disabled", true);
+            loader = $('button:submit').lyearloading({
+                opacity: 0.2,
+                spinnerSize: 'nm'
+            });
+        }).ajaxStop(function () {
+            loader.destroy();
+            $("button:submit").html('立即登录').attr("disabled", false);
+        });
+        $('.signin-form').on('submit', function (event) {
+            if ($(this)[0].checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+                $(this).addClass('was-validated');
+                return false;
+            }
+
+            var $data = $(this).serialize();
+
+            $.ajax({
+                type: "post",
+                url: "{:url('check')}",
+                data: $("#forms").serialize(),
+                dataType: 'json',
+                success: function (res) {
+                    if (res.code == 200) {
+                        $.notify({
+                            message: '登录成功，页面即将跳转~',
+                        }, {
+                            type: 'success',
+                            placement: {
+                                from: 'top',
+                                align: 'right'
+                            },
+                            z_index: 10800,
+                            delay: 1500,
+                            animate: {
+                                enter: 'animate__animated animate__fadeInUp',
+                                exit: 'animate__animated animate__fadeOutDown'
+                            }
+                        });
+                        setTimeout(function () {
+                            location.href = '{:url("/agent/index")}';
+                        }, 1500);
+                    } else {
+                        $.notify({
+                            message: '登录失败，错误原因：' + res.msg,
+                        }, {
+                            type: 'danger',
+                            placement: {
+                                from: 'top',
+                                align: 'right'
+                            },
+                            z_index: 10800,
+                            delay: 1500,
+                            animate: {
+                                enter: 'animate__animated animate__shakeX',
+                                exit: 'animate__animated animate__fadeOutDown'
+                            }
+                        });
+                        $('#password').val('');
+                        $("#captcha").click();
+                    }
+                }
+            });
+            return false;
+        });
+    </script>
+</body>
+
+</html>
