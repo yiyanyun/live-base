@@ -2,7 +2,7 @@
 /*
  * @Author       : Lucifer
  * @Date         : 2022-12-10 12:08:49
- * @LastEditTime : 2022-12-27 22:23:09
+ * @LastEditTime : 2023-01-11 22:48:59
  * @FilePath     : \ioucode_auth\app\common.php
  */
 // 应用公共文件
@@ -137,7 +137,6 @@ function getip()
  */
 function get_time($status = true)
 {
-    // 2022-12-11 14:24:47
     if ($status == true) {
         $time = date('Y-m-d', time()) . ' 00:00:00';
     } else {

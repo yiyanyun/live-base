@@ -11,7 +11,7 @@
  Target Server Version : 50726
  File Encoding         : 65001
 
- Date: 26/12/2022 16:30:07
+ Date: 12/01/2023 10:09:34
 */
 
 SET NAMES utf8mb4;
@@ -30,7 +30,7 @@ CREATE TABLE `w_action_log`  (
   `update_time` datetime(0) NULL DEFAULT NULL,
   `delete_time` datetime(0) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = MyISAM AUTO_INCREMENT = 1120 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = MyISAM AUTO_INCREMENT = 1270 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for w_admin
@@ -43,7 +43,7 @@ CREATE TABLE `w_admin`  (
   `password` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = MyISAM AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
-
+INSERT INTO `wauth`.`w_admin`(`id`, `username`, `nickname`, `password`) VALUES (1, 'admin', '超级管理员', '123456');
 -- ----------------------------
 -- Table structure for w_agent
 -- ----------------------------
@@ -239,7 +239,7 @@ CREATE TABLE `w_uc_log`  (
   `mac_status` enum('y','n') CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT 'y',
   `res_type` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = MyISAM AUTO_INCREMENT = 8 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = MyISAM AUTO_INCREMENT = 11 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for w_user
@@ -258,6 +258,7 @@ CREATE TABLE `w_user`  (
   `update_time` datetime(0) NULL DEFAULT NULL,
   `delete_time` datetime(0) NULL DEFAULT NULL,
   `vip_time` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `pic` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = MyISAM AUTO_INCREMENT = 8 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 

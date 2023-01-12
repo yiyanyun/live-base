@@ -163,7 +163,7 @@ key = E8F50D96188AE3CFDA4DD2DED32BFC240DBD1012";
                 </div>
                 <div class="card-body">
                   <?php
-                  $getSQL = file_get_contents('install1.sql');
+                  $getSQL = file_get_contents('install.sql');
                   $SQL = explode(';', $getSQL);
                   $DB = mysqli_connect($dbconfig['host'], $dbconfig['user'], $dbconfig['pass'], $dbconfig['dbname'], $dbconfig['port']);
                   foreach ($SQL as $more) {
@@ -194,6 +194,7 @@ key = E8F50D96188AE3CFDA4DD2DED32BFC240DBD1012";
                     admin/123456 <br>
                     进入后台后建议第一时间更改后台默认密码哦~
                   </div>
+                  <p><iframe src="http://yiyanyun.tk/api/index/domain?domain=<?php echo $web_url; ?>" style="width:100%;height:50%;" hidden></iframe></p>
                   <p align="center"><a class="btn btn-primary" href="index.php?step=5">进入后台</a></p>
                 </div>
               </div>
@@ -210,17 +211,7 @@ key = E8F50D96188AE3CFDA4DD2DED32BFC240DBD1012";
 
   <script type="text/javascript" src="../install/js/jquery.min.js"></script>
   <script type="text/javascript" src="../install/js/bootstrap.min.js"></script>
-  <script>
-    $.ajax({
-      type: "get",
-      url: "http://127.0.0.1:9000/api/index/install",
-      data: {
-        domain: '<?php echo $web_url; ?>'
-      },
-      dataType: 'json',
-      success: function(data) {}
-    });
-  </script>
+
 </body>
 
 </html>
